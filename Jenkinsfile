@@ -5,6 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '82b350d8-7efd-42d8-afb3-2b0fa08917df', url: 'https://github.com/RashmiNirasha/CICDwithJenkins.git']])
                     echo 'Building the code...'
                     // Example for Java project on Windows
                 }
