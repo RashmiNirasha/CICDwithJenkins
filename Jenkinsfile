@@ -6,8 +6,8 @@ pipeline {
             steps {
                 script {
                     echo 'Building the code...'
-                    // Example for Java project
-                    sh 'mvn clean package'
+                    // Example for Java project on Windows
+                    bat 'mvn clean package'
                 }
             }
         }
@@ -15,56 +15,21 @@ pipeline {
             steps {
                 script {
                     echo 'Running unit and integration tests...'
-                    // Example for Java project
-                    sh 'mvn test'
+                    // Example for Java project on Windows
+                    bat 'mvn test'
                 }
             }
         }
-        stage('Code Analysis') {
+        stage('Run Application') {
             steps {
                 script {
-                    echo 'Performing code analysis...'
-                    // Example tool: SonarQube
-                    sh 'mvn sonar:sonar'
+                    echo 'Running the application...'
+                    // Run the compiled Java application
+                    bat 'java -cp target/hello-jenkins-1.0-SNAPSHOT.jar HelloJenkins'
                 }
             }
         }
-        stage('Security Scan') {
-            steps {
-                script {
-                    echo 'Performing security scan...'
-                    // Example tool: OWASP Dependency Check
-                    sh 'mvn dependency-check:check'
-                }
-            }
-        }
-        stage('Deploy to Staging') {
-            steps {
-                script {
-                    echo 'Deploying to staging...'
-                    // Example deployment
-                    sh 'scp target/my-app.jar user@staging-server:/path/to/deploy'
-                }
-            }
-        }
-        stage('Integration Tests on Staging') {
-            steps {
-                script {
-                    echo 'Running integration tests on staging...'
-                    // Example test script
-                    sh 'ssh user@staging-server "cd /path/to/deploy && ./run-tests.sh"'
-                }
-            }
-        }
-        stage('Deploy to Production') {
-            steps {
-                script {
-                    echo 'Deploying to production...'
-                    // Example deployment
-                    sh 'scp target/my-app.jar user@production-server:/path/to/deploy'
-                }
-            }
-        }
+        // Additional stages...
     }
 
     post {
@@ -76,7 +41,7 @@ pipeline {
         }
         failure {
             emailext(
-                to: 'nirashagunawardana9@gmail.com',
+                to: 'developer@example.com',
                 subject: "Jenkins Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) Failed",
                 body: "Something went wrong with ${env.JOB_NAME} #${env.BUILD_NUMBER}. Please check the logs.",
                 attachLog: true
@@ -84,7 +49,7 @@ pipeline {
         }
         success {
             emailext(
-                to: 'nirashagunawardana9@gmail.com',
+                to: 'developer@example.com',
                 subject: "Jenkins Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) Succeeded",
                 body: "The build and deployment of ${env.JOB_NAME} #${env.BUILD_NUMBER} was successful.",
                 attachLog: true
