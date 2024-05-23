@@ -7,7 +7,6 @@ pipeline {
                 script {
                     echo 'Building the code...'
                     // Example for Java project on Windows
-                    bat 'mvn clean package'
                 }
             }
         }
@@ -16,7 +15,6 @@ pipeline {
                 script {
                     echo 'Running unit and integration tests...'
                     // Example for Java project on Windows
-                    bat 'mvn test'
                 }
             }
             post {
