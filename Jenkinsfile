@@ -98,11 +98,9 @@ pipeline {
 
     post {
         always {
-            script {
-                // Archive the logs
-                archiveArtifacts artifacts: 'target/*.log', allowEmptyArchive: true
-            }
+            emailext body: 'A Test EMail', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Test'
         }
+    
         failure {
             emailext(
                 to: 'nirasha999@gmail.com',
